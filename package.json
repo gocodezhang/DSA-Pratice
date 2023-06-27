@@ -2,7 +2,7 @@
   "name": "blind75",
   "version": "1.0.0",
   "description": "Leetcode pratice",
-  "main": "''",
+  "main": "index.js",
   "scripts": {
     "test": "jest"
   },

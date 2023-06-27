@@ -43,4 +43,25 @@ function TwoSum(arr, target) {
   }
 }
 
-module.exports = TwoSum;
+function TwoSumLinear(arr, target) {
+  const hashTable = {};
+  for (let i = 0; i < arr.length; i++) {
+    hashTable[arr[i]] = i;
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    const current = arr[i];
+    const remaining = target - current;
+    const index = hashTable[remaining]
+    if (index && index !== i) {
+      return [i, index];
+    }
+  }
+
+  return null;
+}
+
+module.exports = {
+  TwoSumLinear,
+  TwoSum,
+}
