@@ -27,3 +27,20 @@
 
 
 // Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity?
+
+// I: an array of nums options, a target sum
+// O: an array containing the indices of the nums adding up to the sums
+// C: only use each num once
+// E: none
+
+function TwoSum(arr, target) {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (target === (arr[i] + arr[j])) {
+        return [i, j];
+      }
+    }
+  }
+}
+
+module.exports = TwoSum;

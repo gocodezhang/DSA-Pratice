@@ -1,0 +1,23 @@
+{
+  "name": "blind75",
+  "version": "1.0.0",
+  "description": "Leetcode pratice",
+  "main": "''",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gocodezhang/Blind75.git"
+  },
+  "author": "Jay Zhang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gocodezhang/Blind75/issues"
+  },
+  "homepage": "https://github.com/gocodezhang/Blind75#readme",
+  "devDependencies": {
+    "eslint": "^8.43.0",
+    "jest": "^29.5.0"
+  }
+}
