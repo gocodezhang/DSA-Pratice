@@ -24,7 +24,7 @@ Constraints:
 // C: none
 // E: one potential case - empty array
 
-const RunTimeArray = require('../RunTime-Array');
+// const RunTimeArray = require('../RunTime-Array');
 
 function containsDuplicate(nums) {
   // Create a for loop to iterate through the array
