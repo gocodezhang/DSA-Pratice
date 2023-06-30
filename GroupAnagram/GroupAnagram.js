@@ -27,7 +27,7 @@ strs[i] consists of lowercase English letters.
 // C: none
 // E: when empty string or single letter, we still consider them anagrams
 
-function groupAnagrams(strs) {
+function groupAnagramsQuadratic(strs) {
 
   function createWordObj(str) {
     const strObj = {};
@@ -81,4 +81,41 @@ function groupAnagrams(strs) {
   return resultArr;
 }
 
-module.exports = groupAnagrams;
+function groupAnagramsLinear(strs) {
+
+  function createHash(str) {
+    const tempArr = new Array(26).fill(0);
+    for (let i = 0; i < str.length; i++) {
+      const currLetter = str[i]
+      const index = currLetter.charCodeAt() - 'a'.charCodeAt();
+      tempArr[index]++
+    }
+    return tempArr.join('');
+  }
+
+  const storage = new Map();
+  // iterate through the strs array
+  for (let i = 0; i < strs.length; i++) {
+    // for curr str, create a unique hashcode (same for all anagrams)
+    const hashcode = createHash(strs[i]);
+    // check if the hashcode exist as key in the map
+    const value = storage.get(hashcode)
+    if (value) {
+      // if yes, push the curr str into the value of the key
+      value.push(strs[i])
+      storage.set(hashcode, value)
+    } else {
+      // if no, create empty array and push the curr str in there
+      const arr = [];
+      arr.push(strs[i])
+      storage.set(hashcode, arr)
+    }
+  }
+  // return all values in the map obj
+  return [...storage.values()];
+}
+
+module.exports = {
+  groupAnagramsQuadratic,
+  groupAnagramsLinear,
+}
