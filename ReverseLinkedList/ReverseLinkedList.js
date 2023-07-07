@@ -41,3 +41,19 @@ function reverseList(head) {
   // return the head
   return currentNode
 };
+
+function reverseListRecusion(head) {
+  if (!head) {
+    return null;
+  }
+
+  if (!head.next) {
+    return head
+  }
+
+  let prev = reverseListRecusion(head.next);
+  head.next.next = head;
+  head.next = null;
+
+  return prev;
+}
