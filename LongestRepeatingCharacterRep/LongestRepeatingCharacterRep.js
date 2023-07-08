@@ -31,14 +31,78 @@ s consists of only uppercase English letters.
 
 function characterReplacement(s, k) {
   // frequencyObj {}
+  const frequencyObj = {};
   // iterate through the input string and find unique characters
+  for (let i = 0; i < s.length; i++) {
     // check if the current letter exist in the uniqueChar
-      // if yes, increment the current value by 1
-      // if no, inital the key and assign the value = 1
+    const currentLetter = s[i]
+    if (frequencyObj[currentLetter]) {
+      frequencyObj[currentLetter] = frequencyObj[currentLetter] + 1;
+    } else {
+      frequencyObj[currentLetter] = 1;
+    }
+  }
 
-  // find the letter with highest frequcny
-  // find the potential positions that we can make change to (find letters other than the letter with highest frequency) (M)
-  // exhaust K / M combination and check if that give us the longest substring
+  let maxFrequency = 0;
+  let maxLetter = null;
+  for (let key in frequencyObj) {
+    if (frequencyObj[key] > maxFrequency) {
+      maxLetter = key;
+      maxFrequency = frequencyObj[key];
+    }
+  }
 
-  // return the length of the longest substring
+  // maxLength
+  let maxLength = 0;
+  // iterate through the letter with maxFrequency
+  for (let j = 0; j < maxFrequency; j++) {
+    // left pointer = the initial position
+    const leftPointer = s.indexOf(maxLetter, j)
+    // right pointer = the position next to the initial position
+    let rightPointer = leftPointer + 1;
+    // iterate through the right pointer
+    let counter = 0;
+    let currLength = 1;
+    while (rightPointer < s.length && (counter < k || (counter === k && s[rightPointer] === maxLetter))) {
+      const currentLetter = s[rightPointer]
+      if (currentLetter !== maxLetter) {
+        counter++
+      }
+      currLength++
+      // compare the current length with the maxlength
+      if (currLength > maxLength) {
+        maxLength = currLength;
+      }
+      rightPointer++;
+    }
+  }
+
+  // return maxLength
+  return maxLength;
+}
+
+function characterReplacementLinear(s, k) {
+  const frequencyMap = new Map();
+  let [left, maxLength] = [0, 0];
+
+  for (let right = 0; right < s.length; right++) {
+    const frequency = frequencyMap.get(s[right]) ? frequencyMap.get(s[right]) + 1 : 1;
+    frequencyMap.set(s[right], frequency);
+
+    const maxFrequency = Math.max(...frequencyMap.values());
+
+    let windowLength = right - left + 1;
+    if (windowLength - maxFrequency > k) {
+      const subtract = frequencyMap.get(s[left]) - 1;
+      frequencyMap.set(s[left], subtract);
+      left++;
+      windowLength = right - left + 1;
+    }
+
+    if (windowLength > maxLength) {
+      maxLength = windowLength;
+    }
+  }
+
+  return maxLength;
 }
