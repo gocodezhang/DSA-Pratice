@@ -74,3 +74,41 @@ function combinationSum(candidates, target) {
   // return resultArr
   return resultArr;
 }
+
+function combinationSumBT(candidates, target) {
+  // create a resultArr
+  const resultArr = [];
+  // use a helper function to perform DFS and backtrack to try all possible combos
+  function dfs(index, currCombo, total) {
+    // base cases
+    // 1) total = target, then add currCombo into resultArr and return
+    if (total === target) {
+      resultArr.push(currCombo.slice())
+      return;
+    }
+    // 2) total > target, return
+    if (total > target) {
+      return;
+    }
+
+    // rescursion cases
+    // iterate through the rest of the elements
+    for (let i = index; i < candidates.length; i++) {
+      // update currCombo and total
+      currCombo.push(candidates[i])
+      // rescursively call our function
+      dfs(i, currCombo, total + candidates[i])
+      // remove the last element in currCombo
+      currCombo.pop();
+    }
+  }
+
+  dfs(0, [], 0);
+
+  // return result Arr
+  return resultArr;
+}
+
+module.exports = {
+  combinationSumBT,
+}
