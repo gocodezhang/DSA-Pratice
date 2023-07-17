@@ -36,13 +36,13 @@ function lowestCommonAncestor(root, p, q) {
   function findPath(root, node) {
     // creat a set called Path
     const path = new Set();
+    path.add(root);
     // check if curr node val === node.val
     if (root.val === node.val) {
       // return path;
       return path;
     }
     // compare curr node val with node.val
-    path.add(root);
     if (root.val > node.val) {
       // if curr node val > node val
       // findPath on left branch and then concatenate the path with curr Node
