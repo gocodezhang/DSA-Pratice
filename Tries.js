@@ -35,72 +35,125 @@ word and prefix consist only of lowercase English letters.
 At most 3 * 104 calls in total will be made to insert, search, and startsWith.
 */
 
-var Trie = function(val) {
-  this.val = val;
-  this.children = [];
+/* standard implementation */
+
+function Trie() {
+  this.root = new TrieNode();
+}
+
+function TrieNode() {
+  this.children = {};
   this.isEnd = false;
-};
+}
 
 Trie.prototype.insert = function(word) {
-  // Create currletter (first letter in word)
-  const currLetter = word[0];
-  // Create nextNode;
-  let nextNode = null;
-  // Iterate through the children
-  for (let i = 0; i < this.children.length; i++) {
-      // check if val of child === currletter
-      if (this.children[i].val === currLetter) {
-          // if true, assign to nextNode
-          nextNode = this.children[i]
-      }
+  let currNode = this.root;
+  for (let i = 0; i < word.length; i++) {
+    const currLetter = word[i];
+    if (!currNode[currLetter]) {
+      currNode[currLetter] = new TrieNode();
+    }
+    currNode = currNode[currLetter];
   }
-  // Check if nextNode is null
-  if (nextNode === null) {
-      // create a node with val = currLetter
-      nextNode = new Trie(currLetter);
-      // Add the node into the children
-      this.children.push(nextNode)
-  }
-  // if word.length === 1
-  if (word.length === 1) {
-    nextNode.isEnd = true;
-    return;
-  }
-
-  // call insert on the node with word.slice(1)
-  nextNode.insert(word.slice(1));
-};
+  currNode.isEnd = true;
+}
 
 Trie.prototype.search = function(word) {
-  const currLetter = word[0];
-  // Iterate through the children
-  for (let i = 0; i < this.children.length; i++) {
-    // Check if child.val === currLetter
-    if (this.children[i].val === currLetter)
-        // if true, check if word.length === 1
-        if (word.length === 1) {
-          // if true, return child.isend
-          return this.children[i].isEnd;
-        } else {
-          // if true, return child.isend
-          // else call search on the node with word.slice(1)
-          return this.children[i].search(word.slice(1))
-        }
+  let currNode = this.root;
+  for (let i = 0; i < word.length; i++) {
+    const currLetter = word[i];
+    if (!currNode[currLetter]) {
+      return false
+    }
+    currNode = currNode[currLetter];
   }
-  // return false
-  return false;
-};
 
+  return currNode.isEnd;
+}
 
 Trie.prototype.startsWith = function(prefix) {
-  const currLetter = prefix[0];
-  for (let i = 0; i < this.children.length; i++) {
-    if (this.children[i].val === currLetter) {
-      if (prefix.length === 1) {
-        return true;
-      }
-      return this.children[i].startsWith(prefix.slice(1));
+  let currNode = this.root;
+  for (let i = 0; i < prefix.length; i++) {
+    const currLetter = prefix[i];
+    if (!currNode[currLetter]) {
+      return false
     }
+    currNode = currNode[currLetter];
   }
-  return false;
-};
+
+  return true;
+}
+
+
+
+/* my implementation */
+
+// var Trie = function(val) {
+//   this.val = val;
+//   this.children = [];
+//   this.isEnd = false;
+// };
+
+// Trie.prototype.insert = function(word) {
+//   // Create currletter (first letter in word)
+//   const currLetter = word[0];
+//   // Create nextNode;
+//   let nextNode = null;
+//   // Iterate through the children
+//   for (let i = 0; i < this.children.length; i++) {
+//       // check if val of child === currletter
+//       if (this.children[i].val === currLetter) {
+//           // if true, assign to nextNode
+//           nextNode = this.children[i]
+//       }
+//   }
+//   // Check if nextNode is null
+//   if (nextNode === null) {
+//       // create a node with val = currLetter
+//       nextNode = new Trie(currLetter);
+//       // Add the node into the children
+//       this.children.push(nextNode)
+//   }
+//   // if word.length === 1
+//   if (word.length === 1) {
+//     nextNode.isEnd = true;
+//     return;
+//   }
+
+//   // call insert on the node with word.slice(1)
+//   nextNode.insert(word.slice(1));
+// };
+
+// Trie.prototype.search = function(word) {
+//   const currLetter = word[0];
+//   // Iterate through the children
+//   for (let i = 0; i < this.children.length; i++) {
+//     // Check if child.val === currLetter
+//     if (this.children[i].val === currLetter)
+//         // if true, check if word.length === 1
+//         if (word.length === 1) {
+//           // if true, return child.isend
+//           return this.children[i].isEnd;
+//         } else {
+//           // if true, return child.isend
+//           // else call search on the node with word.slice(1)
+//           return this.children[i].search(word.slice(1))
+//         }
+//   }
+//   // return false
+//   return false;
+// };
+
+
+// Trie.prototype.startsWith = function(prefix) {
+//   const currLetter = prefix[0];
+//   for (let i = 0; i < this.children.length; i++) {
+//     if (this.children[i].val === currLetter) {
+//       if (prefix.length === 1) {
+//         return true;
+//       }
+//       return this.children[i].startsWith(prefix.slice(1));
+//     }
+//   }
+//   return false;
+// };
