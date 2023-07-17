@@ -36,12 +36,16 @@ function levelOrderBFS(root) {
     const counter = queue.length;
     for (let i = 0; i < counter; i++) {
       const node = queue.shift();
-      level.push(node.val);
-      queue.push(node.left);
-      queue.push(node.right);
+      if (node) {
+        level.push(node.val);
+        queue.push(node.left);
+        queue.push(node.right);
+      }
     }
 
-    resArr.push(level);
+    if (level.length) {
+      resArr.push(level);
+    }
   }
 
   return resArr;
