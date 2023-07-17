@@ -1,6 +1,6 @@
 
 
-function leveOrder(root) {
+function leveOrderDFS(root) {
   // create resArr
   const resArr = [];
   // create a helper function (node, level) to put all nodes in a level into the correspdoning position in resArr
@@ -26,24 +26,45 @@ function leveOrder(root) {
   return resArr;
 }
 
-function buildQueue(root) {
+function levelOrderBFS(root) {
+  const resArr = [];
   const queue = [];
   queue.push(root);
-  let leftIndex = 0;
-  let rightIndex = 1;
 
-  while (leftIndex !== rightIndex) {
-    for (let i = leftIndex; i < rightIndex; i++) {
-      if (queue[i].left) {
-        queue.push(queue[i].left)
-      }
-      if (queue[i].right) {
-        queue.push(queue[i].right)
-      }
+  while (queue.length !==0) {
+    const level = [];
+    const counter = queue.length;
+    for (let i = 0; i < counter; i++) {
+      const node = queue.shift();
+      level.push(node.val);
+      queue.push(node.left);
+      queue.push(node.right);
     }
-    leftIndex = rightIndex;
-    rightIndex = queue.length;
+
+    resArr.push(level);
   }
 
-  return queue.map((node) => (node.val));
+  return resArr;
 }
+
+// function buildQueue(root) {
+//   const queue = [];
+//   queue.push(root);
+//   let leftIndex = 0;
+//   let rightIndex = 1;
+
+//   while (leftIndex !== rightIndex) {
+//     for (let i = leftIndex; i < rightIndex; i++) {
+//       if (queue[i].left) {
+//         queue.push(queue[i].left)
+//       }
+//       if (queue[i].right) {
+//         queue.push(queue[i].right)
+//       }
+//     }
+//     leftIndex = rightIndex;
+//     rightIndex = queue.length;
+//   }
+
+//   return queue.map((node) => (node.val));
+// }
