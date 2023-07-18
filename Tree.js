@@ -51,6 +51,44 @@ function levelOrderBFS(root) {
   return resArr;
 }
 
+//
+function preOrderTraversal(root) {
+  const path = [];
+
+  if (root === null) {
+    return path;
+  }
+
+  path.push(root.val)
+
+  return path.concat(preOrderTraversal(root.left)).concat(preOrderTraversal(root.right));
+
+}
+
+function inOrderTraversal(root) {
+  const path = [];
+
+  if (root === null) {
+    return path;
+  }
+
+  path.push(root.val)
+
+  return preOrderTraversal(root.left).concat(path).concat(preOrderTraversal(root.right));
+
+}
+
+function postOrderTraversal(root) {
+  const path = [];
+
+  if (root === null) {
+    return path;
+  }
+
+  path.push(root.val);
+
+  return postOrderTraversal(root.left).concat(postOrderTraversal(root.right)).concat(path);
+}
 // function buildQueue(root) {
 //   const queue = [];
 //   queue.push(root);
