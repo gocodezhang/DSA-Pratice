@@ -24,7 +24,7 @@ The number of nodes in the list is sz.
 Follow up: Could you do this in one pass?
 */
 
-function removeNthFromEnd(head) {
+function removeNthFromEnd(head, n) {
     // Helper function to iterate the linked list and return the length
     // listLength(head); return the length
     function listLength(head) {
