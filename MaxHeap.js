@@ -31,6 +31,7 @@ maxHeap.prototype.removeLargest = function() {
   if (this.storage.length === 1) {
     return;
   } else if (this.storage.length === 2) {
+    this.size = this.size - 1;
     return this.storage.pop();
   } else {
     // 2. add the last element as the first

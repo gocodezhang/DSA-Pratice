@@ -1,13 +1,13 @@
 
-function Heap() {
+function minHeap() {
   this.storage = [0];
 }
 
-Heap.prototype.getSmallest = function() {
+minHeap.prototype.getSmallest = function() {
   return this.storage[1];
 }
 
-Heap.prototype.add = function(num) {
+minHeap.prototype.add = function(num) {
   // 1. Put the new element in the back
   this.storage.push(num);
   // 2. Repeat below steps 1) new element < its parent 2) new element is not at the top
@@ -25,7 +25,7 @@ Heap.prototype.add = function(num) {
 
 }
 
-Heap.prototype.removeSmallest = function() {
+minHeap.prototype.removeSmallest = function() {
   if (this.storage.length === 1) {
     return;
   } else if (this.storage.length === 2) {
