@@ -62,3 +62,20 @@ var dailyTemperatures = function(temperatures) {
   // return resArr
   return resArr;
 };
+
+// monoStack
+var dailyTemperatures = function(temperatures) {
+  const resArr = new Array(temperatures.length).fill(0);
+  const stack = [];
+
+  for (let i = 0; i < temperatures.length; i++) {
+      const currElement = temperatures[i]
+
+      while (stack.length > 0 && stack[stack.length - 1][1] < currElement) {
+          const [index, temp] = stack.pop();
+          resArr[index] = i - index;
+      }
+      stack.push([i, currElement]);
+  }
+  return resArr;
+};
