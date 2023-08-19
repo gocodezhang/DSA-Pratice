@@ -16,12 +16,12 @@ public class SpiralMatrix {
             for (int i = up + 1; i < down; i++) {
                 resultList.add(matrix[i][right - 1]);
             }
-            if (up != down) {
+            if (up != down - 1) {
                 for (int i = right - 2; i >= left; i--) {
                     resultList.add(matrix[down - 1][i]);
                 }
             }
-            if (left != right) {
+            if (left != right - 1) {
                 for (int i = down - 2; i > up; i--) {
                     resultList.add(matrix[i][left]);
                 }
@@ -35,9 +35,9 @@ public class SpiralMatrix {
     }
     public static void main(String[] args) {
         int[][] matrix = {
-                {1,2,3},
-                {8, 9, 4},
-                {7, 6, 5},
+                {1,2,3,4},
+                {5,6,7,8},
+                {9,10,11,12},
         };
         System.out.println(spiralOrder(matrix).toString());
     }
