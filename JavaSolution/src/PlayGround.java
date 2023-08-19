@@ -1,23 +1,37 @@
 public class PlayGround {
-    public static String altPairs(String str) {
-        int index = 0;
-        int count = 0;
+    public static void  funcSubstring(String inputStr)
+    {
+        // Write your code here
         String result = "";
-        while (index < str.length()) {
-            result += str.charAt(index);
-            if (count % 2 == 0) {
-                index += 1;
-            } else {
-                index += 3;
+        for (int start = 0; start < inputStr.length(); start++) {
+            for (int end = start + 1; end < inputStr.length(); end++) {
+                if (isPalidrome(inputStr, start, end)) {
+                    String currPalidrome = inputStr.substring(start, end + 1);
+                    if (result.length() < currPalidrome.length() || result.compareTo(currPalidrome) < 0) {
+                        result = currPalidrome;
+                    }
+                }
             }
-            count += 1;
-
         }
-        return result;
+        System.out.println(result);
+
+
+    }
+
+    // Add a helper function
+    public static boolean isPalidrome(String str, int start, int end) {
+        while (start < end) {
+            if (str.charAt(start) != str.charAt(end)) {
+                return false;
+            }
+            start += 1;
+            end -= 1;
+        }
+        return true;
     }
 
     public static void main(String[] args) {
-        String a = "kitten";
-        System.out.println(altPairs(a));
+        String a = "TABCCBAZ";
+        funcSubstring(a);
     }
 }
