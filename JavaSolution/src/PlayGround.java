@@ -31,7 +31,6 @@ public class PlayGround {
     }
 
     public static void main(String[] args) {
-        String a = "TABCCBAZ";
-        funcSubstring(a);
+        System.out.println('1' * '2');
     }
 }
