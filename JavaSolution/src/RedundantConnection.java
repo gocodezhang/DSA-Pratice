@@ -34,6 +34,17 @@ public class RedundantConnection {
         }
         return false;
     }
+    public static int[] findRedundantConnection2(int[][] edges) {
+        DisjoinSet dsu = new DisjoinSet(edges.length);
+        for (int i = 0; i < edges.length; i++) {
+            int[] currEdge = edges[i];
+            if (dsu.isConnect(currEdge[0], currEdge[1])) {
+                return currEdge;
+            }
+            dsu.connect(currEdge[0], currEdge[1]);
+        }
+        return new int[]{};
+    }
     public static void main(String[] args) {
         int[][] edges = {
                 {1, 4},
@@ -42,6 +53,6 @@ public class RedundantConnection {
                 {1, 2},
                 {4, 5}
         };
-        System.out.println(Arrays.toString(findRedundantConnection(edges)));
+        System.out.println(Arrays.toString(findRedundantConnection2(edges)));
     }
 }
