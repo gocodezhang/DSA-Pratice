@@ -70,6 +70,38 @@ public class NetworkDelayTime {
         return delayTime == Integer.MAX_VALUE ? -1 : delayTime;
 
     }
+    public static int networkDelayTimeDijktra(int[][] times, int n, int k) {
+        Map<Integer, List<Pair>> graph = new HashMap<>();
+        for (int i = 0; i < times.length; i++) {
+            int[] time = times[i];
+            List<Pair> list = graph.getOrDefault(time[0], new ArrayList<>());
+            list.add(new Pair(time[1], time[2]));
+            graph.put(time[0], list);
+        }
+        int[] distance = new int[n + 1];
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> (a.dist - b.dist));
+        pq.add(new Pair(k, 0));
+        while (pq.size() > 0) {
+            Pair currPair = pq.poll();
+            if (distance[currPair.node] != Integer.MAX_VALUE) {
+                continue;
+            }
+            distance[currPair.node] = currPair.dist;
+            List<Pair> neighbors = graph.getOrDefault(currPair.node, new ArrayList<>());
+            for (Pair neightbor : neighbors) {
+                pq.add(new Pair(neightbor.node, currPair.dist + neightbor.dist));
+            }
+        }
+        int delayTime = -1;
+        for (int index = 1; index < distance.length; index++) {
+            if (distance[index] > delayTime) {
+                delayTime = distance[index];
+            }
+        }
+
+        return delayTime == Integer.MAX_VALUE ? -1 : delayTime;
+    }
     static class Pair {
         int node;
         int dist;
@@ -84,6 +116,6 @@ public class NetworkDelayTime {
                 {2, 3, 1},
                 {3, 4, 1}
         };
-        System.out.println(networkDelayTimeBFS(times, 4, 2));
+        System.out.println(networkDelayTimeDijktra(times, 4, 2));
     }
 }
