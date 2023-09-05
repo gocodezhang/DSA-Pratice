@@ -88,6 +88,24 @@ public class CheapestFlightsWithinK {
         }
         return dist[dst] == Integer.MAX_VALUE ? -1 : dist[dst];
     }
+    public static int findCheapestPriceBellman(int n, int[][] flights, int src, int dst, int k) {
+        int[] distance = new int[n];
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        distance[src] = 0;
+        int stops = 0;
+        while (stops <= k) {
+            int[] temp = Arrays.copyOfRange(distance, 0, n);
+            for (int i = 0; i < flights.length; i++) {
+                int[] flight = flights[i];
+                if (distance[flight[0]] != Integer.MAX_VALUE) {
+                    temp[flight[1]] = Math.min(temp[flight[1]], distance[flight[0]] + flight[2]);
+                }
+            }
+            stops++;
+            distance = temp;
+        }
+        return distance[dst] == Integer.MAX_VALUE ? -1 : distance[dst];
+    }
     static class Pair {
         int node;
         int weight;
@@ -104,6 +122,6 @@ public class CheapestFlightsWithinK {
                 {2, 3, 1},
                 {3, 4, 1}
         };
-        System.out.println(findCheapestPriceBFS(5, flights, 0, 4, 2));
+        System.out.println(findCheapestPriceBellman(5, flights, 0, 4, 2));
     }
 }
