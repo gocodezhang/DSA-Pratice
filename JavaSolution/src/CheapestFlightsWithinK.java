@@ -92,8 +92,8 @@ public class CheapestFlightsWithinK {
         int[] distance = new int[n];
         Arrays.fill(distance, Integer.MAX_VALUE);
         distance[src] = 0;
-        int stops = 0;
-        while (stops <= k) {
+        int edges = 0;
+        while (edges < k + 1) {
             int[] temp = Arrays.copyOfRange(distance, 0, n);
             for (int i = 0; i < flights.length; i++) {
                 int[] flight = flights[i];
@@ -101,7 +101,7 @@ public class CheapestFlightsWithinK {
                     temp[flight[1]] = Math.min(temp[flight[1]], distance[flight[0]] + flight[2]);
                 }
             }
-            stops++;
+            edges++;
             distance = temp;
         }
         return distance[dst] == Integer.MAX_VALUE ? -1 : distance[dst];
