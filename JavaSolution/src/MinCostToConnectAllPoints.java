@@ -1,7 +1,13 @@
 import java.util.*;
 
+/**
+ * You are given an array points representing integer coordinates of some points on a 2D-plane, where points[i] = [xi, yi].
+ * The cost of connecting two points [xi, yi] and [xj, yj] is the manhattan distance between them: |xi - xj| + |yi - yj|,
+ * where |val| denotes the absolute value of val.
+ * Return the minimum cost to make all points connected.
+ */
 public class MinCostToConnectAllPoints {
-    public static int minCostConnectPoints(int[][] points) {
+    public static int minCostConnectPointsPrim(int[][] points) {
         PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> (a.dist - b.dist));
         Set<String> mst = new HashSet<>();
         pq.add(new Pair(points[0], 0));
