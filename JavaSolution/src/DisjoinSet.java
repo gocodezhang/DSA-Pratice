@@ -3,18 +3,21 @@ import java.util.Arrays;
 public class DisjoinSet {
     int[] parent;
     int[] size;
+    // Constructor
     public DisjoinSet(int num) {
         parent = new int[num + 1];
         size = new int[num + 1];
         Arrays.fill(parent, -1);
         Arrays.fill(size, 1);
     }
+    // Method: find the parent of it given a node
     public int findParent(int node) {
         if (parent[node] == -1) {
             return node;
         }
         return findParent(parent[node]);
     }
+    // Method: connect two nodes together
     public void connect(int node1, int node2) {
         int parent1 = findParent(node1);
         int parent2 = findParent(node2);
@@ -26,6 +29,7 @@ public class DisjoinSet {
             size[parent2] = size[parent2] + size[parent1];
         }
     }
+    // Method: check if two nodes are connected
     public boolean isConnect(int node1, int node2) {
         int parent1 = findParent(node1);
         int parent2 = findParent(node2);
