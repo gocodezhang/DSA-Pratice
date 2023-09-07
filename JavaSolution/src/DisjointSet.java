@@ -1,22 +1,19 @@
 import java.util.Arrays;
 
 /**
- * You are given an array points representing integer coordinates of some points on a 2D-plane, where points[i] = [xi, yi].
- * The cost of connecting two points [xi, yi] and [xj, yj] is the manhattan distance between them: |xi - xj| + |yi - yj|,
- * where |val| denotes the absolute value of val.
- * Return the minimum cost to make all points connected.
+ * Implementation of Weighted Quick Union Disjoint Set
  */
-public class DisjoinSet {
+public class DisjointSet {
     int[] parent;
     int[] size;
     // Constructor
-    public DisjoinSet(int num) {
+    public DisjointSet(int num) {
         parent = new int[num + 1];
         size = new int[num + 1];
         Arrays.fill(parent, -1);
         Arrays.fill(size, 1);
     }
-    // Method: find the parent of it given a node
+    // Method: find the parent for a node
     public int findParent(int node) {
         if (parent[node] == -1) {
             return node;
@@ -27,6 +24,7 @@ public class DisjoinSet {
     public void connect(int node1, int node2) {
         int parent1 = findParent(node1);
         int parent2 = findParent(node2);
+        // compare the size of two connected components and join the smaller component under the larger component
         if (size[parent1] >= size[parent2]) {
             parent[parent2] = parent1;
             size[parent1] = size[parent1] + size[parent2];
@@ -42,7 +40,7 @@ public class DisjoinSet {
         return parent1 == parent2;
     }
     public static void main(String[] args) {
-        DisjoinSet dsu = new DisjoinSet(6);
+        DisjointSet dsu = new DisjointSet(6);
         int[][] edges = {
                 {1, 2},
                 {2, 3},

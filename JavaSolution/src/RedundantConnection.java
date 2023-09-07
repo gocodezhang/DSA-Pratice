@@ -35,7 +35,7 @@ public class RedundantConnection {
         return false;
     }
     public static int[] findRedundantConnection2(int[][] edges) {
-        DisjoinSet dsu = new DisjoinSet(edges.length);
+        DisjointSet dsu = new DisjointSet(edges.length);
         for (int i = 0; i < edges.length; i++) {
             int[] currEdge = edges[i];
             if (dsu.isConnect(currEdge[0], currEdge[1])) {

@@ -35,7 +35,7 @@ public class MinCostToConnectAllPoints {
     }
     public static int minCostConnectPointsKruskal(int[][] points) {
         int n = points.length;
-        DisjoinSet dsu = new DisjoinSet(n);
+        DisjointSet dsu = new DisjointSet(n);
         PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> (a[2] - b[2]));
         // create all edges [node1, node2, distance]
         for (int i = 0; i < points.length; i++) {
