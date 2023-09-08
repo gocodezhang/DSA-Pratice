@@ -106,6 +106,39 @@ public class CheapestFlightsWithinK {
         }
         return distance[dst] == Integer.MAX_VALUE ? -1 : distance[dst];
     }
+    public static int findCheapestPriceDijkstra(int n, int[][] flights, int src, int dst, int k) {
+        Map<Integer, List<Pair>> graph = new HashMap<>();
+        for (int i = 0; i < flights.length; i++) {
+            int[] flight = flights[i];
+            List<Pair> list = graph.getOrDefault(flight[0], new ArrayList<>());
+            list.add(new Pair(flight[1], flight[2]));
+            graph.put(flight[0], list);
+        }
+        PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> (a[1] - b[1]));
+        queue.add(new int[]{src, 0, 0});
+        int[] stops = new int[n];
+        Arrays.fill(stops, Integer.MAX_VALUE);
+
+        while (queue.size() > 0) {
+            int[] currNode = queue.poll();
+            if (stops[currNode[0]] < currNode[2]) {
+                continue;
+            }
+            stops[currNode[0]] = currNode[2];
+            if (currNode[0] == dst) {
+                return currNode[1];
+            }
+            if (currNode[2] < k + 1) {
+                List<Pair> neighbors = graph.getOrDefault(currNode[0], new ArrayList<>());
+                for (Pair neighbor : neighbors) {
+                    queue.add(new int[]{neighbor.node, currNode[1] + neighbor.weight, currNode[2] + 1});
+                }
+            }
+
+        }
+        return -1;
+
+    }
     static class Pair {
         int node;
         int weight;
@@ -116,12 +149,13 @@ public class CheapestFlightsWithinK {
     }
     public static void main(String[] args) {
         int[][] flights = {
-                {0, 1, 1},
-                {1, 2, 1},
-                {0, 2, 5},
-                {2, 3, 1},
-                {3, 4, 1}
+                {0, 1, 5},
+                {1, 2, 5},
+                {0, 3, 2},
+                {3, 1, 2},
+                {1, 4, 1},
+                {4, 2, 1}
         };
-        System.out.println(findCheapestPriceBellman(5, flights, 0, 4, 2));
+        System.out.println(findCheapestPriceDijkstra(5, flights, 0, 2, 2));
     }
 }
