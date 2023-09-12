@@ -26,8 +26,33 @@ public class PartitionEqualSubSet {
         memo[currPos][currSum] = result;
         return result;
     }
+    public static boolean canPartitionIterative(int[] nums) {
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+        }
+        if (sum % 2 != 0) {
+            return false;
+        }
+        int target = sum / 2;
+        boolean[][] cpMatrix = new boolean[nums.length][target + 1];
+        cpMatrix[0][0] = true;
+        cpMatrix[0][nums[0]] = true;
+        for (int row = 1; row < nums.length; row++) {
+            for (int col = 0; col < target + 1; col++) {
+                if (cpMatrix[row - 1][col]) {
+                    cpMatrix[row][col] = true;
+                    if (col + nums[row] > target) {
+                        continue;
+                    }
+                    cpMatrix[row][col + nums[row]] = true;
+                }
+            }
+        }
+        return cpMatrix[nums.length - 1][target];
+    }
     public static void main(String[] main) {
         int[] nums = {1, 5, 11, 5};
-        System.out.println(canPartition(nums));
+        System.out.println(canPartitionIterative(nums));
     }
 }
