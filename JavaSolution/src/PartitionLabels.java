@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParitionLabels {
+public class PartitionLabels {
     public static List<Integer> partitionLabels(String s) {
         // create result (list of integer)
         List<Integer> result = new ArrayList<>();
