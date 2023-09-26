@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReverseLinkListII {
+    static ListNode leftNode;
     public static ListNode reverseBetween(ListNode head, int left, int right) {
         if (left == right) {
             return head;
@@ -69,8 +70,34 @@ public class ReverseLinkListII {
 
         return head;
     }
+    public static ListNode reverseBetweenRecursive(ListNode head, int left, int right) {
+        leftNode = head;
+        recurseAndReverse(head, left, right, false);
+        return head;
+    }
+    public static void recurseAndReverse(ListNode rightNode, int left, int right, boolean stop) {
+        if (right == 1) {
+            return;
+        }
+        rightNode = rightNode.next;
+
+        if (left > 1) {
+            leftNode = leftNode.next;
+        }
+        recurseAndReverse(rightNode, left - 1, right - 1, stop);
+
+        if (leftNode == rightNode || rightNode.next == leftNode) {
+            stop = true;
+        }
+        if (!stop) {
+            int t = leftNode.val;
+            leftNode.val = rightNode.val;
+            rightNode.val = t;
+            leftNode = leftNode.next;
+        }
+    }
     public static void main(String[] args) {
         ListNode head = new ListNode(1, new ListNode(2, new ListNode(3)));
-        System.out.println(reverseBetweenIterative(head, 1, 3));
+        System.out.println(reverseBetweenRecursive(head, 1, 3));
     }
 }
