@@ -11,11 +11,6 @@ public class TicTacToe {
         memoObj.put(1, new int[2*size + 2]);
         memoObj.put(2, new int[2*size + 2]);
     }
-    /**
-     * Further optimization can be achieved
-     * currently, we are tracking every row and col for both players;
-     * but given every move will be validated, we can track every row and col for the board
-     */
     public int move(int row, int col, int player) {
         int[] memoArr = memoObj.get(player);
         memoArr[row] = memoArr[row] + 1;
