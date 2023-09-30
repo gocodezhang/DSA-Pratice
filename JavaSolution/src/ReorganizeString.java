@@ -55,9 +55,48 @@ public class ReorganizeString {
         // return string
         return builder.toString();
     }
+    public static String reorganizeAlt(String s) {
+        Map<Character, Integer> frequencyMap = new HashMap<>();
+        char maxLetter = s.charAt(0);
+        int maxFrequency = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char currChar = s.charAt(i);
+            int currFrequency = frequencyMap.getOrDefault(currChar, 0);
+            currFrequency++;
+            frequencyMap.put(currChar, currFrequency);
+            if (currFrequency > maxFrequency) {
+                maxFrequency = currFrequency;
+                maxLetter = currChar;
+            }
+        }
+        if ((s.length() + 1) / 2 < maxFrequency) {
+            return "";
+        }
+        char[] charArr = new char[s.length()];
+        int index = 0;
+        while (frequencyMap.get(maxLetter) > 0) {
+            charArr[index] = maxLetter;
+            index += 2;
+            frequencyMap.put(maxLetter, frequencyMap.get(maxLetter) - 1);
+        }
+
+        for (char currChar : frequencyMap.keySet()) {
+            while (frequencyMap.get(currChar) > 0) {
+                if (index > s.length() - 1) {
+                    index = 1;
+                }
+                charArr[index] = currChar;
+                index += 2;
+                frequencyMap.put(currChar, frequencyMap.get(currChar) - 1);
+            }
+        }
+
+        return String.valueOf(charArr);
+
+    }
     public static void main(String[] args) {
-        String s = "aabbb";
-        System.out.println(reorganize(s));
+        String s = "aaab";
+        System.out.println(reorganizeAlt(s));
     }
 
 }
