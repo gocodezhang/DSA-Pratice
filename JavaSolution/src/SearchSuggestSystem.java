@@ -43,6 +43,22 @@ public class SearchSuggestSystem {
         }
         return resultList;
     }
+    public static List<List<String>> suggestedProductsTries(String[] products, String searchWord) {
+        Tries tries = new Tries();
+        for (String word : products) {
+            tries.addWord(word);
+        }
+        List<List<String>> resultList = new ArrayList<>();
+        String prefix = "";
+        for (int i = 0; i < searchWord.length(); i++) {
+            prefix += searchWord.charAt(i);
+            List<String> currList = tries.searchPrefix(prefix);
+            if (currList.size() > 0) {
+                resultList.add(currList);
+            }
+        }
+        return resultList;
+    }
     public static int updateIndices(int startIndex, String currPrefix, String[] products) {
         int left = startIndex, right = products.length - 1;
         while (left < right) {
@@ -68,6 +84,6 @@ public class SearchSuggestSystem {
     public static void main(String[] args) {
         String[] products = {"bags","baggage","banner","box","cloths"};
         String searchWord = "bags";
-        System.out.println(suggestedProductsBinarySearch(products, searchWord));
+        System.out.println(suggestedProductsTries(products, searchWord));
     }
 }
