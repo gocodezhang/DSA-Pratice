@@ -13,7 +13,9 @@ public class Candy {
         // for i < ratings.length; i++
         for (int i = 0; i < ratings.length; i++) {
             // i > 0 && ratings[i - 1] > ratings[i] || i < ratings.length - 1 && ratings[i] < ratingss[i + 1]
-            if ((i > 0 && ratings[i - 1] > ratings[i]) || (i < ratings.length - 1 && ratings[i] < ratings[i + 1])) {
+            boolean condition1 = i > 0 && ratings[i - 1] > ratings[i] && (i == ratings.length - 1 || ratings[i] <= ratings[i + 1]);
+            boolean condition2 = i < ratings.length - 1 && ratings[i] < ratings[i + 1] && (i == 0 || ratings[i] <= ratings[i - 1]);
+            if (condition1 || condition2) {
                 valley.add(i);
             }
         }
@@ -50,8 +52,61 @@ public class Candy {
         // count the candies
         return Arrays.stream(candies).sum();
     }
+    public static int countMinCandyTwoArray(int[] ratings) {
+        int[] left = new int[ratings.length];
+        Arrays.fill(left, 1);
+        int[] right = new int[ratings.length];
+        Arrays.fill(right, 1);
+        for (int i = 1; i < left.length; i++) {
+            if (ratings[i - 1] < ratings[i]) {
+                left[i] = left[i - 1] + 1;
+            }
+        }
+        for (int i = right.length - 2; i >=0; i--) {
+            if (ratings[i] > ratings[i + 1]) {
+                right[i] = right[i + 1] + 1;
+            }
+        }
+        int sum = 0;
+        for (int i = 0; i < ratings.length; i++) {
+            sum += Math.max(left[i], right[i]);
+        }
+        return sum;
+    }
+    public static int countMinCandyOptimal(int[] ratings) {
+        if (ratings.length <= 1) {
+            return ratings.length;
+        }
+        int candies = 0;
+        int up = 0;
+        int down = 0;
+        int oldSlope = 0;
+        for (int i = 1; i < ratings.length; i++) {
+            int newSlope = (ratings[i] > ratings[i - 1]) ? 1 : (ratings[i] < ratings[i - 1] ? -1 : 0);
+
+            if ((oldSlope > 0 && newSlope == 0) || (oldSlope < 0 && newSlope >= 0)) {
+                candies += count(up) + count(down) + Math.max(up, down);
+                up = 0;
+                down = 0;
+            }
+            if (newSlope > 0) {
+                up++;
+            } else if (newSlope < 0) {
+                down++;
+            } else {
+                candies++;
+            }
+
+            oldSlope = newSlope;
+        }
+        candies += count(up) + count(down) + Math.max(up, down) + 1;
+        return candies;
+    }
+    public static int count(int n) {
+        return n * (n + 1) / 2;
+    }
     public static void main(String[] args) {
-        int[] ratings = {1,2,87,87,87,2,1};
-        System.out.println(countMinCandy(ratings));
+        int[] ratings = {1,2,87,87,2,1};
+        System.out.println(countMinCandyOptimal(ratings));
     }
 }
