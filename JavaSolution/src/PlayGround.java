@@ -91,6 +91,6 @@ public class PlayGround {
                 {3, 2}
         };
         int[] result = playGround.findOrder(numsCourse, prerequisites);
-        System.out.println(Arrays.toString(result));
+        System.out.println("/familyChat/" + numsCourse);
     }
 }
