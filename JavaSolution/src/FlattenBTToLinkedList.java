@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class FlattenBTToLinkedList {
     public void flatten(TreeNode root) {
         // base case
@@ -25,7 +27,47 @@ public class FlattenBTToLinkedList {
             }
             copyLeftChild.right = copyRightChild;
         }
+    }
+    public void flattenIterative(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        int start = 1;
+        int end = 2;
+        TreeNode tailNode = null;
+        Stack<Pair<TreeNode, Integer>> stack = new Stack<>();
+        stack.push(new Pair<>(root, start));
 
+        while (!stack.isEmpty()) {
+            Pair<TreeNode, Integer> currPair = stack.pop();
+            TreeNode currNode = currPair.getKey();
+            Integer currStatus = currPair.getValue();
+
+            if (currNode.left == null && currNode.right == null) {
+                tailNode = currNode;
+                continue;
+            }
+
+            if (currStatus == start) {
+                if (currNode.left != null) {
+                    stack.push(new Pair<>(currNode, end));
+                    stack.push(new Pair<>(currNode.left, start));
+                } else if (currNode.right != null) {
+                    stack.push(new Pair<>(currNode.right, start));
+                }
+            } else {
+                TreeNode rightBranch = currNode.right;
+                if (tailNode != null) {
+                    TreeNode leftBranch = currNode.left;
+                    currNode.left = null;
+                    currNode.right = leftBranch;
+                    tailNode.right = rightBranch;
+                }
+                if (rightBranch != null) {
+                    stack.push(new Pair<>(rightBranch, start));
+                }
+            }
+        }
     }
     public static void main(String[] args) {
         FlattenBTToLinkedList flattenBTToLinkedList = new FlattenBTToLinkedList();
@@ -38,7 +80,7 @@ public class FlattenBTToLinkedList {
         node2.left = node3;
         node2.right = node4;
         root.right = node5;
-        flattenBTToLinkedList.flatten(root);
+        flattenBTToLinkedList.flattenIterative(root);
     }
 
 }
