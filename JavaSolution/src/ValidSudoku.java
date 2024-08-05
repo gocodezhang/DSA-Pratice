@@ -1,8 +1,9 @@
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class ValidSudoku {
-    public static boolean isValidSudoku(char[][] board) {
+    public boolean isValidSudoku(char[][] board) {
         int width = board[0].length;
         int height = board.length;
         // check all the rows
@@ -51,6 +52,42 @@ public class ValidSudoku {
                     }
                     frequencyMap.put(currChar, currFre);
                 }
+            }
+        }
+        return true;
+    }
+    public boolean isValidSudokuOnePass(char[][] board) {
+        int n = board.length;
+        HashSet<Character>[] rows = new HashSet[n];
+        HashSet<Character>[] columns = new HashSet[n];
+        HashSet<Character>[] boxes = new HashSet[n];
+
+        for (int i = 0; i < n; i++) {
+            rows[i] = new HashSet<>();
+            columns[i] = new HashSet<>();
+            boxes[i] = new HashSet<>();
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                char currChar = board[i][j];
+                if (currChar == '.') {
+                    continue;
+                }
+                if (rows[i].contains(currChar)) {
+                    return false;
+                }
+                rows[i].add(currChar);
+                if (columns[j].contains(currChar)) {
+                    return false;
+                }
+                columns[j].add(currChar);
+
+                int box = 3 * (i / 3) + j / 3;
+                if (boxes[box].contains(currChar)) {
+                    return false;
+                }
+                boxes[box].add(currChar);
             }
         }
         return true;
