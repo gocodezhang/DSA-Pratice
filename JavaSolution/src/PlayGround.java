@@ -1,96 +1,41 @@
 import java.util.*;
 
 public class PlayGround {
-    static int WHITE = 1;
-    static int GRAY = 2;
-    static int BLACK = 3;
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> output = new ArrayList();
+        Deque<TreeNode> stack = new ArrayDeque();
 
-    boolean isPossible;
-    Map<Integer, Integer> color;
-    Map<Integer, List<Integer>> adjList;
-    List<Integer> topologicalOrder;
+        while (root != null || !stack.isEmpty()) {
+            // push nodes: right -> node -> left
+            while (root != null) {
+                if (root.right != null) {
+                    stack.push(root.right);
+                }
+                stack.push(root);
+                root = root.left;
+            }
 
-    private void init(int numCourses) {
-        this.isPossible = true;
-        this.color = new HashMap<>();
-        this.adjList = new HashMap<Integer, List<Integer>>();
-        this.topologicalOrder = new ArrayList<>();
+            root = stack.pop();
 
-        // By default all vertces are WHITE
-        for (int i = 0; i < numCourses; i++) {
-            this.color.put(i, WHITE);
-        }
-    }
-
-    private void dfs(int node) {
-
-        // Don't recurse further if we found a cycle already
-        if (!this.isPossible) {
-            return;
-        }
-
-        // Start the recursion
-        this.color.put(node, GRAY);
-
-        // Traverse on neighboring vertices
-        for (Integer neighbor : this.adjList.getOrDefault(node, new ArrayList<Integer>())) {
-            if (this.color.get(neighbor) == WHITE) {
-                this.dfs(neighbor);
-            } else if (this.color.get(neighbor) == GRAY) {
-                // An edge to a GRAY vertex represents a cycle
-                this.isPossible = false;
+            // if the right subtree is not yet processed
+            if (!stack.isEmpty() && root.right == stack.peek()) {
+                stack.pop();
+                stack.push(root);
+                root = root.right;
+                // if we're on the leftmost leaf
+            } else {
+                output.add(root.val);
+                root = null;
             }
         }
 
-        // Recursion ends. We mark it as black
-        this.color.put(node, BLACK);
-        this.topologicalOrder.add(node);
-    }
-
-    public int[] findOrder(int numCourses, int[][] prerequisites) {
-
-        this.init(numCourses);
-
-        // Create the adjacency list representation of the graph
-        for (int i = 0; i < prerequisites.length; i++) {
-            int dest = prerequisites[i][0];
-            int src = prerequisites[i][1];
-            List<Integer> lst = adjList.getOrDefault(src, new ArrayList<Integer>());
-            lst.add(dest);
-            adjList.put(src, lst);
-        }
-
-        // If the node is unprocessed, then call dfs on it.
-        for (int i = 0; i < numCourses; i++) {
-            if (this.color.get(i) == WHITE) {
-                this.dfs(i);
-            }
-        }
-
-        int[] order;
-        if (this.isPossible) {
-            order = new int[numCourses];
-            for (int i = 0; i < numCourses; i++) {
-                order[i] = this.topologicalOrder.get(numCourses - i - 1);
-            }
-        } else {
-            order = new int[0];
-        }
-
-        return order;
+        return output;
     }
 
 
     public static void main(String[] args) {
-        PlayGround playGround = new PlayGround();
-        int numsCourse = 4;
-        int[][] prerequisites = {
-                {1, 0},
-                {2, 0},
-                {3, 1},
-                {3, 2}
-        };
-        int[] result = playGround.findOrder(numsCourse, prerequisites);
-        System.out.println("/familyChat/" + numsCourse);
+        String str = "";
+        str += "test";
+        System.out.println(str);
     }
 }
