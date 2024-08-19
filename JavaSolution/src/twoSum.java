@@ -4,28 +4,29 @@ import java.util.List;
 import java.util.Map;
 
 public class twoSum {
-    public static int[] twoSumHashMap(int[] nums, int target) {
-        // Build a hashmap
-        Map<Integer, List<Integer>> indexMap = new HashMap<>();
+    public int[] twoSumHashMap(int[] nums, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
-            List<Integer> indexArr = indexMap.getOrDefault(nums[i], new ArrayList<>());
-            indexArr.add(i);
-            indexMap.put(nums[i], indexArr);
+            map.put(nums[i], i);
         }
-        // Iterate through the arrays
+
         for (int i = 0; i < nums.length; i++) {
-            // otherKey = target - nums[i]
-            int otherKey = target - nums[i];
-            // check if the otherKey exist
-            if (indexMap.containsKey(otherKey) && otherKey != nums[i]) {
-                List<Integer> indexArr = indexMap.get(otherKey);
-                return new int[]{i, indexArr.get(0)};
-            }
-            if (indexMap.containsKey(otherKey) && otherKey == nums[i] && indexMap.get(otherKey).size() >= 2) {
-                List<Integer> indexArr = indexMap.get(otherKey);
-                return new int[]{i, indexArr.get(1)};
+            int complement = target - nums[i];
+            if (map.containsKey(complement) && map.get(complement) > i) {
+                return new int[]{i, map.get(complement)};
             }
         }
-        return new int[2];
+        return null;
+    }
+    public int[] twoSumOnePass(int[] nums, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            if (map.containsKey(complement)) {
+                return new int[]{map.get(complement), i};
+            }
+            map.put(nums[i], i);
+        }
+        return null;
     }
 }
