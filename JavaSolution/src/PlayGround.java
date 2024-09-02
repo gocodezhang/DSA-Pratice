@@ -1,40 +1,29 @@
 import java.util.*;
 
 public class PlayGround {
-    public void rotate(int[][] matrix) {
-        transpose(matrix);
-        flip(matrix);
-    }
-    public void transpose(int[][] matrix) {
-        int n = matrix.length;
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                int tmp = matrix[i][j];
-                matrix[i][j] = matrix[j][i];
-                matrix[j][i] = tmp;
-            }
-        }
-    }
-    public void flip(int[][] matrix) {
-        int n = matrix.length;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n / 2; j++) {
-                int temp = matrix[i][j];
-                matrix[i][j] = matrix[i][n - 1 - j];
-                matrix[i][n - 1 - j] = temp;
-            }
-        }
-    }
+    public int[] minSubArray(int[] nums) {
+        int minimumSum = Integer.MAX_VALUE;
+        int currSum = 0;
+        int left = 0;
+        int[] index = new int[2];
 
+        for (int right = 0; right < nums.length; right++) {
+            if (currSum > 0) {
+                currSum = 0;
+                left = right;
+            }
+            currSum += nums[right];
+            if (currSum < minimumSum) {
+                minimumSum = currSum;
+                index = new int[]{left, right + 1};
+            }
+        }
+        return Arrays.copyOfRange(nums, index[0], index[1]);
+    }
 
     public static void main(String[] args) {
-        int[][] matrix = {
-                {1,2,3,4},
-                {5,6,7,8},
-                {9,10,11,12},
-                {13,14,15,16},
-        };
+        int[] nums = {-2,1,-3,4,-1,-2,1,-5,4};
         PlayGround playGround = new PlayGround();
-        playGround.rotate(matrix);
+        System.out.println(playGround.minSubArray(nums));
     }
 }
