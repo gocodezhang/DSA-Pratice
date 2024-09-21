@@ -1,27 +1,53 @@
 import java.util.*;
 
 public class PlayGround {
-    public int binarySearch(int[] nums, int target) {
-        int left = 0;
-        int right = nums.length - 1;
-
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            if (nums[mid] < target) {
-                left = mid + 1;
-            } else if (nums[mid] > target) {
-                right = mid - 1;
-            } else {
-                right = mid - 1;
-            }
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        if (head == null) {
+            return null;
         }
+        ListNode dummyNode = new ListNode(-1);
+        dummyNode.next = head;
+        ListNode prevNode = dummyNode;
+        ListNode currNode = head;
 
-        return right;
+        int index = 1;
+        while (left > index) {
+            prevNode = currNode;
+            currNode = currNode.next;
+            index++;
+        }
+        ListNode beforeStart = prevNode;
+        ListNode start = currNode;
+        while (right + 1 > index) {
+            ListNode nextNode = currNode.next;
+            currNode.next = prevNode;
+
+            prevNode = currNode;
+            currNode = nextNode;
+            index++;
+        }
+        start.next = currNode;
+        beforeStart.next = prevNode;
+
+        return dummyNode.next;
     }
 
     public static void main(String[] args) {
-        int[] nums = {1,3,5};
-        PlayGround playGround = new PlayGround();
-        System.out.println(playGround.binarySearch(nums,2));
+        ListNode node1 = new ListNode(1);
+        ListNode node2 = new ListNode(2);
+        ListNode node3 = new ListNode(3);
+        ListNode node4 = new ListNode(4);
+        ListNode node5 = new ListNode(5);
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = node5;
+        PlayGround playground = new PlayGround();
+        int intNum = 1000;
+        long longNum = 10000000000L;
+        String longStr = "" + longNum;
+
+        System.out.println(longStr.length());
+        System.out.println(longStr);
     }
 }
