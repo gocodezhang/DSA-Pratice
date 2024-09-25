@@ -45,9 +45,10 @@ public class PlayGround {
         PlayGround playground = new PlayGround();
         int intNum = 1000;
         long longNum = 10000000000L;
-        String longStr = "" + longNum;
-
+        String longStr = "/\\";
+        for (int i = 0; i < longStr.length(); i++) {
+            System.out.println(longStr.charAt(i));
+        }
         System.out.println(longStr.length());
-        System.out.println(longStr);
     }
 }
