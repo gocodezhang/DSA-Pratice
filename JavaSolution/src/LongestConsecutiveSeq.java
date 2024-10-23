@@ -1,7 +1,8 @@
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class LongestConsecutiveSeq {
-    public static int longestConsecutive(int[] nums) {
+    public int longestConsecutive(int[] nums) {
         // build a hashmap by iterating the array
         HashMap<Integer, Integer> hashMap = new HashMap<>();
         for (int num : nums) {
@@ -45,8 +46,34 @@ public class LongestConsecutiveSeq {
         return largestSeq;
 
     }
+    public int longConsecutiveWithStartDetection(int[] nums) {
+        HashSet<Integer> numSet = new HashSet<>();
+
+        for (int num : nums) {
+            if (!numSet.contains(num)) {
+                numSet.add(num);
+            }
+        }
+
+        int longestSeq = 0;
+        for (int num : nums) {
+            if (!numSet.contains(num - 1)) {
+                int currSeq = 1;
+
+                while (numSet.contains(num + 1)) {
+                    currSeq++;
+                    num++;
+                }
+
+                longestSeq = Math.max(longestSeq, currSeq);
+            }
+        }
+
+        return longestSeq;
+    }
     public static void main(String[] args) {
         int[] nums = {0,3,7,2,5,8,4,6,0,1};
-        System.out.println(longestConsecutive(nums));
+        LongestConsecutiveSeq longestConsecutiveSeq = new LongestConsecutiveSeq();
+        System.out.println(longestConsecutiveSeq.longestConsecutive(nums));
     }
 }

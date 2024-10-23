@@ -1,39 +1,34 @@
+import javax.swing.*;
 import java.util.*;
 
 public class PlayGround {
-    public int[] topKFrequent(int[] nums, int k) {
-        HashMap<Integer, Integer> frequencyMap = new HashMap<>();
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int pointer1 = m - 1;
+        int pointer2 = n - 1;
+        int insertIndex = m + n - 1;
 
-        for (int i = 0; i < nums.length; i++) {
-            int num = nums[i];
-            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
-        }
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>((a, b) -> frequencyMap.get(a) - frequencyMap.get(b));
-
-        for (int key : frequencyMap.keySet()) {
-            minHeap.add(key);
-
-            while (minHeap.size() > k) {
-                minHeap.poll();
+        while (pointer2 >= 0 && pointer1 >= 0) {
+            if (nums1[pointer1] > nums2[pointer2]) {
+                nums1[insertIndex] = nums1[pointer1];
+                pointer1--;
+            } else {
+                nums1[insertIndex] = nums2[pointer2];
+                pointer2--;
             }
-        }
-        int[] result = new int[k];
-        int index = 0;
-
-        while (!minHeap.isEmpty()) {
-            result[index] = minHeap.poll();
-            index++;
+            insertIndex--;
         }
 
-        return result;
+        while (pointer2 >= 0) {
+            nums1[insertIndex] = nums2[pointer2];
+            insertIndex--;
+            pointer2--;
+        }
+
     }
 
     public static void main(String[] args) {
-
-        String longStr = "/\\,";
-        for (int i = 0; i < longStr.length(); i++) {
-            System.out.println(longStr.charAt(i));
-        }
-        System.out.println(longStr.length());
+        int[] nums = {100,4,200,1,3,2};
+        PlayGround playGround = new PlayGround();
+        System.out.println();
     }
 }
