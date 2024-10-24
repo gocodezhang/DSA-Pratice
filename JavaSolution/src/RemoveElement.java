@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RemoveElement {
-    public static int removeNumber(int[] nums, int val) {
+    public int removeNumber(int[] nums, int val) {
         List<Integer> notEqualVal = new ArrayList<>();
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] != val) {
@@ -14,7 +14,7 @@ public class RemoveElement {
         }
         return notEqualVal.size();
     }
-    public static int removeNumberOptimal(int[] nums, int val) {
+    public int removeNumberOptimal(int[] nums, int val) {
         int i = 0;
         for (int j = 0; j < nums.length; j++) {
             if (nums[j] != val) {
@@ -23,5 +23,20 @@ public class RemoveElement {
             }
         }
         return i;
+    }
+    public int removeElementSwap(int[] nums, int val) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+            if (nums[left] == val) {
+                nums[left] = nums[right];
+                right--;
+            } else {
+                left++;
+            }
+        }
+
+        return left;
     }
 }
