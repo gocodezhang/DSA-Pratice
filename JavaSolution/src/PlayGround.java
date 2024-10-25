@@ -2,14 +2,28 @@ import javax.swing.*;
 import java.util.*;
 
 public class PlayGround {
-    public int removeElement(int[] nums, int val) {
-        int insertIndex = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != val) {
-                nums[insertIndex] = nums[i];
+
+    public int removeDuplicates(int[] nums) {
+        int prev = nums[0];
+        int count = 1;
+        int insertIndex = 1;
+
+        for (int i = 1; i < nums.length; i++) {
+            int curr = nums[i];
+            if (prev != curr) {
+                nums[insertIndex] = curr;
+                count = 1;
                 insertIndex++;
+            } else {
+                if (count < 2) {
+                    nums[insertIndex] = curr;
+                    insertIndex++;
+                }
+                count++;
             }
+            prev = curr;
         }
+
         return insertIndex;
     }
 

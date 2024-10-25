@@ -20,4 +20,20 @@ public class RemoveDuplicatesFromSortedArray {
         }
         return list.size();
     }
+    public int removeDuplicatesOptimal(int[] nums) {
+        int prev = nums[0];
+        int insertIndex = 1;
+
+        for (int i = 1; i < nums.length; i++) {
+            int curr = nums[i];
+            if (prev != curr) {
+                nums[insertIndex] = curr;
+                insertIndex++;
+            }
+
+            prev = curr;
+        }
+
+        return insertIndex;
+    }
 }
