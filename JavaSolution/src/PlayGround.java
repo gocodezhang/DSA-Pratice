@@ -3,29 +3,34 @@ import java.util.*;
 
 public class PlayGround {
 
-    public int majorElement(int[] nums) {
-        int major = nums[0];
-        int count = 1;
+    public void rotate(int[] nums, int k) {
+        int actualK = k % nums.length;
+        int[] temp = new int[nums.length];
 
-        for (int i = 1; i < nums.length; i++) {
-            int curr = nums[i];
-            if (major == curr) {
-                count++;
+        int newHead = nums.length - actualK;
+        int oldHead = 0;
+
+        for (int i = 0; i < temp.length; i++) {
+            if (newHead < temp.length) {
+                temp[i] = nums[newHead];
+                newHead++;
             } else {
-                count--;
-            }
-
-            if (count < 0) {
-                major = curr;
-                count = 1;
+                temp[i] = nums[oldHead];
+                oldHead++;
             }
         }
-        return major;
+
+        for (int i = 0; i < temp.length; i++) {
+            nums[i] = temp[i];
+        }
     }
 
     public static void main(String[] args) {
-        int[] nums = {100,4,200,1,3,2};
+        int[] nums = {1,2,3,4,5,6,7};
         PlayGround playGround = new PlayGround();
-        System.out.println();
+        playGround.rotate(nums, 3);
+        for (int i = 0; i < nums.length; i++) {
+            System.out.println(nums[i]);
+        }
     }
 }
