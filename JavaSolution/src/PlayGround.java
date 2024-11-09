@@ -2,35 +2,35 @@ import javax.swing.*;
 import java.util.*;
 
 public class PlayGround {
-
-    public void rotate(int[] nums, int k) {
-        int actualK = k % nums.length;
-        int[] temp = new int[nums.length];
-
-        int newHead = nums.length - actualK;
-        int oldHead = 0;
-
-        for (int i = 0; i < temp.length; i++) {
-            if (newHead < temp.length) {
-                temp[i] = nums[newHead];
-                newHead++;
+    public int maxProfit(int[] prices) {
+        // global variable
+        int totalProfit = 0;
+        // left, right
+        int left = 0;
+        int right = 1;
+        // go though arrays
+        while (right < prices.length) {
+            // left >= right; update window and do nothing
+            if (prices[left] >= prices[right]) {
+                left++;
+                right++;
             } else {
-                temp[i] = nums[oldHead];
-                oldHead++;
+                if (right == prices.length - 1 || prices[right] >= prices[right + 1]) {
+                    totalProfit += prices[right] - prices[left];
+                    left = right + 1;
+                    right = left + 1;
+                } else {
+                    right++;
+                }
             }
         }
 
-        for (int i = 0; i < temp.length; i++) {
-            nums[i] = temp[i];
-        }
+        return totalProfit;
     }
 
     public static void main(String[] args) {
-        int[] nums = {1,2,3,4,5,6,7};
+        int[] nums = {7,1,5,3,6,4};
         PlayGround playGround = new PlayGround();
-        playGround.rotate(nums, 3);
-        for (int i = 0; i < nums.length; i++) {
-            System.out.println(nums[i]);
-        }
+        System.out.println(playGround.maxProfit(nums));
     }
 }

@@ -6,7 +6,7 @@
  * Find and return the maximum profit you can achieve.
  */
 public class BestTimeToBSStockII {
-    public static int maxProfit(int[] prices) {
+    public int maxProfit(int[] prices) {
         // create three possible states arrays
         int[] sold = new int[prices.length];
         int[] hold = new int[prices.length];
@@ -19,7 +19,7 @@ public class BestTimeToBSStockII {
         }
         return Math.max(sold[prices.length - 1], reset[prices.length - 1]);
     }
-    public static int maxProfitValleyApproach(int[] prices) {
+    public int maxProfitBest(int[] prices) {
         int maxProfit = 0;
         for (int i = 1; i < prices.length; i++) {
             if (prices[i] > prices[i - 1]) {
@@ -29,8 +29,54 @@ public class BestTimeToBSStockII {
         }
         return maxProfit;
     }
+    public int maxProfitTwoPointers(int[] prices) {
+        // global variable
+        int totalProfit = 0;
+        // left, right
+        int left = 0;
+        int right = 1;
+        // go though arrays
+        while (right < prices.length) {
+            // left >= right; update window and do nothing
+            if (prices[left] >= prices[right]) {
+                left++;
+                right++;
+            } else {
+                if (right == prices.length - 1 || prices[right] >= prices[right + 1]) {
+                    totalProfit += prices[right] - prices[left];
+                    left = right + 1;
+                    right = left + 1;
+                } else {
+                    right++;
+                }
+            }
+        }
+
+        return totalProfit;
+    }
+    public int maxProfitTwoPointersOptimal(int[] prices) {
+        int totalProfit = 0;
+        int i = 0;
+
+        while (i < prices.length) {
+            while (i < prices.length - 1 && prices[i] >= prices[i + 1]) {
+                i++;
+            }
+            int valley = prices[i];
+
+            while (i < prices.length - 1 && prices[i] <= prices[i + 1]) {
+                i++;
+            }
+            int peak = prices[i];
+            totalProfit += peak - valley;
+            i++;
+        }
+
+        return totalProfit;
+    }
     public static void main(String[] args) {
         int[] prices = {1,2,3,4,5};
-        System.out.println(maxProfit(prices));
+        BestTimeToBSStockII bestTimeToBSStockII = new BestTimeToBSStockII();
+        System.out.println(bestTimeToBSStockII.maxProfit(prices));
     }
 }
