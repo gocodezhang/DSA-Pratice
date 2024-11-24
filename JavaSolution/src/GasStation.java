@@ -46,7 +46,7 @@ public class GasStation {
         // return false
         return false;
     }
-    public static int canCompleteCircuitOptimal(int[] gas, int[] cost) {
+    public static int canCompleteCircuitGreedy(int[] gas, int[] cost) {
         int n = gas.length;
         int[] diff = new int[n];
         for (int i = 0; i < n; i++) {
@@ -64,6 +64,37 @@ public class GasStation {
             }
         }
         return totalGain >= 0 ? startIndex : -1;
+    }
+    public static int canCompleteCircuitSlidingWindow(int[] gas, int[] cost) {
+        int[] diff = new int[gas.length];
+        for (int i = 0; i < gas.length; i++) {
+            diff[i] = gas[i] - cost[i];
+        }
+
+        int start = 0;
+        int end = 0;
+        int tank = 0;
+        int size = 0;
+
+        while (start < gas.length && size < gas.length + 1) {
+            while (tank < 0 & start < gas.length) {
+                tank -= diff[start];
+                start++;
+                size--;
+            }
+//            if (start > end && start < gas.length) {
+//                end = start;
+//                tank = 0;
+//                size = 0;
+//            }
+            while (tank >= 0 && size < gas.length + 1) {
+                tank += diff[end];
+                size++;
+                end = (end + 1) % gas.length;
+            }
+        }
+
+        return size == gas.length + 1 ? start : -1;
     }
     public static void main(String[] args) {
         int[] gas = {2, 3, 4};
