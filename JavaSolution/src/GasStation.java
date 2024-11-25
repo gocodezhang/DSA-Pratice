@@ -46,6 +46,36 @@ public class GasStation {
         // return false
         return false;
     }
+    public int canCompleteCircuitBF(int[] gas, int[] cost) {
+        // try every position as starting position
+        for (int i = 0; i < gas.length; i++) {
+            if (gas[i] >= cost[i] && travel(i, gas, cost)) {
+                return i;
+            }
+
+        }
+
+        // return -1
+        return -1;
+    }
+    private boolean travel(int i, int[] gas, int[] cost) {
+        // dest, currPos, tank
+        boolean completed = false;
+        int currPos = i;
+        int tank = 0;
+        // while 1. haven't get to dest 2. tank is not empty
+        while (!completed && (tank + gas[currPos] >= cost[currPos])) {
+            // travel to next place
+            tank += gas[currPos] - cost[currPos];
+            currPos = (currPos + 1) % gas.length;
+            if (i == currPos) {
+                completed = true;
+            }
+        }
+
+        // return currPos == dest
+        return completed && i == currPos;
+    }
     public static int canCompleteCircuitGreedy(int[] gas, int[] cost) {
         int n = gas.length;
         int[] diff = new int[n];
