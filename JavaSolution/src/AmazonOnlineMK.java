@@ -1,6 +1,14 @@
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * Amazon OA Question 2:
+ *  We are given an array cost with cost of different items. A package can contain at most two items.
+ *  The cost of the package is equal to the sum of the item(s) it contains.
+ *  For any given distribution, an item can only be in one package (i.e, when distributing items in different packages, an item can only be in one package).
+ *  What is the maximum number of packages that can be produced for a given cost array, such that all the packages have the same cost.
+ *  (Remember the constraint that a package must have at least one, and at most two items). .
+ */
 public class AmazonOnlineMK {
     public int findMaximumPackages(int[] cost) {
         // create a map to distinct sum and their frequency
