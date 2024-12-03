@@ -1,44 +1,7 @@
 import java.util.Arrays;
 
 public class ProductOfArrayExceptSelf {
-    public static int[] productExceptSelf(int[] nums) {
-        //1. create totalProduct = 1, totalProductExclude = 1, index = -1
-        int totalProduct = 1;
-        int totalProductExclude = 1;
-        int index = -1;
-        //2. Iterate through the array
-        for (int i = 0; i < nums.length; i++) {
-            // currElement
-            int currElement = nums[i];
-            // if (currElement != 0)
-            if (currElement != 0) {
-                totalProduct *= currElement;
-                totalProductExclude *= currElement;
-            } else {
-                // if (index >=0)
-                if (index >= 0) {
-                    return new int[nums.length];
-                }
-                // index = i
-                index = i;
-                // update totalProduct
-                totalProduct *= currElement;
-            }
-        }
-        //3. create new array - resultArr
-        int[] resultArr = new int[nums.length];
-        //4. Iterate through resultArr and assign values
-        for (int i = 0; i < nums.length; i++) {
-            int currElement = nums[i];
-            if (currElement != 0) {
-                resultArr[i] = totalProduct / currElement;
-            } else {
-                resultArr[i] = totalProductExclude;
-            }
-        }
-        return resultArr;
-    }
-    public static int[] productExceptSelfWithoutDivision(int[] nums) {
+    public int[] productExceptSelfWithoutDivision(int[] nums) {
         int[] left = new int[nums.length];
         int[] right = new int[nums.length];
         left[0] = 1;
@@ -56,7 +19,7 @@ public class ProductOfArrayExceptSelf {
         }
         return answer;
     }
-    public static int[] productExceptSelfWithoutDivisionOptimal(int[] nums) {
+    public int[] productExceptSelfWithoutDivisionOptimal(int[] nums) {
         int[] left = new int[nums.length];
         int[] answer = new int[nums.length];
         left[0] = 1;
@@ -70,8 +33,46 @@ public class ProductOfArrayExceptSelf {
         }
         return answer;
     }
+    public int[] productExceptSelfWithVar(int[] nums) {
+        int n = nums.length;
+        int[] left = new int[n];
+        int product = 1;
+        for (int i = 0; i < n; i++) {
+            left[i] = product;
+            product = product * nums[i];
+        }
+        int[] right = new int[n];
+        product = 1;
+        for (int i = n - 1; i >=0; i--) {
+            right[i] = product;
+            product = product * nums[i];
+        }
+        int[] answer = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            answer[i] = left[i] * right[i];
+        }
+
+        return answer;
+    }
+    public int[] produceExceptSelfConstantSpace(int[] nums) {
+        int n = nums.length;
+        int[] answer = new int[n];
+        int product = 1;
+        for (int i = 0; i < n; i++) {
+            answer[i] = product;
+            product = product * nums[i];
+        }
+        product = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            answer[i] = answer[i] * product;
+            product = product * nums[i];
+        }
+        return answer;
+    }
     public static void main(String[] args) {
         int[] nums = {1,2,3,4};
-        System.out.println(Arrays.toString(productExceptSelfWithoutDivisionOptimal(nums)));
+        ProductOfArrayExceptSelf productOfArrayExceptSelf = new ProductOfArrayExceptSelf();
+        System.out.println(Arrays.toString(productOfArrayExceptSelf.produceExceptSelfConstantSpace(nums)));
     }
 }
