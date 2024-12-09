@@ -73,6 +73,36 @@ public class Candy {
         }
         return sum;
     }
+    public static int countMinCandyOneArray(int[] ratings) {
+        int n = ratings.length;
+        int[] assigns = new int[n];
+        // check the left neigbhors
+        for (int i = 0; i < n; i++) {
+            if (i == 0) {
+                assigns[i] = 1;
+                continue;
+            }
+            if (ratings[i - 1] >= ratings[i]) {
+                assigns[i] = 1;
+            } else {
+                assigns[i] = assigns[i - 1] + 1;
+            }
+        }
+        // check the right neigbhors
+        for (int i = n - 2; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1] && assigns[i] <= assigns[i + 1]) {
+                assigns[i] = assigns[i + 1] + 1;
+            }
+        }
+
+        // calculating sum can be done in above loop as it has the final assigned candies
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += assigns[i];
+        }
+
+        return sum;
+    }
     public static int countMinCandyOptimal(int[] ratings) {
         if (ratings.length <= 1) {
             return ratings.length;
@@ -106,7 +136,7 @@ public class Candy {
         return n * (n + 1) / 2;
     }
     public static void main(String[] args) {
-        int[] ratings = {1,2,87,87,2,1};
+        int[] ratings = {1,2,3,4,2,1,2,3,1};
         System.out.println(countMinCandyOptimal(ratings));
     }
 }
