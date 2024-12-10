@@ -68,6 +68,40 @@ public class NumOfSmallestAvailableChair {
 
         return -1;
     }
+    public int smallestChairPQOptimal(int[][] times, int targetFriend) {
+        int n = times.length;
+        int[][] timesWithFriend = new int[n][3];
+
+        for (int i = 0; i < n; i++) {
+            int[] time = times[i];
+            timesWithFriend[i] = new int[]{i, time[0], time[1]};
+        }
+        Arrays.sort(timesWithFriend, (a, b) -> (a[1] - b[1]));
+
+        PriorityQueue<Integer> availableChairs = new PriorityQueue<>();
+        for (int i = 0; i < n; i++) {
+            availableChairs.add(i);
+        }
+
+        PriorityQueue<int[]> occupiedChairs = new PriorityQueue<>((a, b) -> (a[1] - b[1]));
+
+        for (int[] event : timesWithFriend) {
+            int friend = event[0];
+
+            while (!occupiedChairs.isEmpty() && occupiedChairs.peek()[1] <= event[1]) {
+                int[] chairPair = occupiedChairs.poll();
+                availableChairs.add(chairPair[0]);
+            }
+            int chair = availableChairs.poll();
+            if (friend == targetFriend) {
+                return chair;
+            }
+            occupiedChairs.add(new int[]{chair, event[2]});
+        }
+
+        return -1;
+
+    }
     public static void main(String[] args) {
         int[][] times = {
                 {3,10},
@@ -75,7 +109,7 @@ public class NumOfSmallestAvailableChair {
                 {2,6}
         };
         NumOfSmallestAvailableChair numofSmallestAvailableChair = new NumOfSmallestAvailableChair();
-        System.out.println(numofSmallestAvailableChair.smallestChairPQ(times, 0));
+        System.out.println(numofSmallestAvailableChair.smallestChairPQOptimal(times, 0));
     }
 
 }
