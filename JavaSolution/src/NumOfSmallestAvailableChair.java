@@ -68,9 +68,6 @@ public class NumOfSmallestAvailableChair {
 
         return -1;
     }
-    public int smallestChairPQOptimal(int[][] times, int targetFriend) {
-
-    }
     public static void main(String[] args) {
         int[][] times = {
                 {3,10},
