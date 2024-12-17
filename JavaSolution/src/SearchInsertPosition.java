@@ -17,7 +17,7 @@ public class SearchInsertPosition {
     }
     public static void main(String[] args) {
         SearchInsertPosition searchInsertPosition = new SearchInsertPosition();
-        int[] nums = {1,2,3,4,5};
+        int[] nums = {1,2,3,5,5};
         System.out.println(searchInsertPosition.searchInsert(nums, 4));
     }
 }
