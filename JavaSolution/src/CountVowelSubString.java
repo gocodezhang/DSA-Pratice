@@ -14,7 +14,7 @@ import java.util.HashSet;
  * 'x'is not a vowel, it cannot be included in the substring, and this substring does not contain all of the vowels. It is not a qualifying substring.
  * Moving to the right, there are four substrings that do qualify: 'aaeuiou', 'aaeuio', 'aeuiou' and 'aeuio.
  */
-public class VowelSubString {
+public class CountVowelSubString {
     static HashSet<Character> vowels = new HashSet<>();
     static {
         vowels.add('a');
@@ -23,6 +23,7 @@ public class VowelSubString {
         vowels.add('o');
         vowels.add('u');
     }
+    // three pointers one pass
     public int countVowelSubstringWhileLoop(String s) {
         // initalize a hashmap
         HashMap<Character, Integer> currWindow = new HashMap<>();
@@ -72,6 +73,7 @@ public class VowelSubString {
         }
         return result;
     }
+    // three pointers one pass
     public int countVowelSubstringForLoop(String word) {
         HashMap<Character, Integer> currWindow = new HashMap<>();
 
@@ -106,11 +108,36 @@ public class VowelSubString {
 
         return result;
     }
+    public int countVowelSubstringBF(String word) {
+        int result = 0;
+        int countVowels = 0;
+        HashMap<Character, Integer> currWindow = new HashMap<>();
+
+        for (int i = 0; i < word.length(); i++) {
+            if (vowels.contains(word.charAt(i))) {
+                countVowels = 0;
+                currWindow.clear();
+
+                for (int j = i; j < word.length() && vowels.contains(word.charAt(j)); j++) {
+                    char currChar = word.charAt(j);
+                    currWindow.put(currChar, currWindow.getOrDefault(currChar, 0) + 1);
+                    if (currWindow.get(currChar) == 1) {
+                        countVowels++;
+                    }
+                    if (countVowels == 5) {
+                        result++;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
 
     public static void main(String[] args) {
         String s = "aeioaexaaeuiou";
-        VowelSubString vowelSubstring = new VowelSubString();
-        System.out.println(vowelSubstring.countVowelSubstringWhileLoop(s));
+        CountVowelSubString countVowelSubstring = new CountVowelSubString();
+        System.out.println(countVowelSubstring.countVowelSubstringWhileLoop(s));
     }
 
 }
