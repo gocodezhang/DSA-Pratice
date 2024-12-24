@@ -3,33 +3,34 @@ import java.util.*;
 
 public class PlayGround {
 
-    public int lengthOfLastWord(String s) {
-        // search from the back
-        // seenWord
-        boolean seenWord = false;
-        int prevSpaceIndex = s.length();
-        int index = s.length() - 1;
-
-        while (index >= 0) {
-            char currChar = s.charAt(index);
-            if (currChar != ' ') {
-                seenWord = true;
-            } else {
-                if (seenWord) {
-                    break;
+    public String reverseWords(String s) {
+        List<String> words = new ArrayList<>();
+        // lastIndex
+        int lastIndexOfWord = -1;
+        // go through string from the back
+        for (int i = s.length() - 1; i >= -1; i--) {
+            char curr = i == -1 ? ' ' : s.charAt(i);
+            if (curr == ' ') {
+                // when it is a space - check lastIndex is valid, add string from i + 1, lastIndex
+                if (lastIndexOfWord != -1) {
+                    words.add(s.substring(i + 1, lastIndexOfWord + 1));
+                    lastIndexOfWord = -1;
                 }
-                prevSpaceIndex = index;
+            } else {
+                // when it is not a space - update lastIndex if lastIndex is not valid
+                if (lastIndexOfWord == -1) {
+                    lastIndexOfWord = i;
+                }
             }
-            index--;
         }
 
-        return prevSpaceIndex - index - 1;
-
+        return String.join(" ", words);
     }
+
 
 
     public static void main(String[] args) {
         PlayGround playground = new PlayGround();
-        System.out.println(playground.lengthOfLastWord("   fly me   to   the moon  "));
+        System.out.println(playground.reverseWords("the sky is blue"));
     }
 }

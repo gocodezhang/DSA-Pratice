@@ -1,5 +1,5 @@
 public class LongestCommonPrefix {
-    public String findLongestCommonPrefix(String[] strs) {
+    public String findLongestCommonPrefixHorizontalScanning(String[] strs) {
         // create LongestPossblePrefix
         String longestPossiblePrefix = strs[0];
         // create pointer
@@ -21,10 +21,26 @@ public class LongestCommonPrefix {
         // substring(0, pointer)
         return longestPossiblePrefix.substring(0, pointer);
     }
+    public String findLongestCommonPrefixVerticalScanning(String[] strs) {
+        if (strs.length == 0) {
+            return "";
+        }
+
+        String firstStr = strs[0];
+        for (int i = 0; i < firstStr.length(); i++) {
+            char currChar = firstStr.charAt(i);
+            for (int j = 1; j < strs.length; j++) {
+                if (i == strs[j].length() || currChar != strs[j].charAt(i)) {
+                    return firstStr.substring(0, i);
+                }
+            }
+        }
+        return firstStr;
+    }
     public static void main(String[] args) {
         String[] strs = {"flower", "flow", "flight"};
         LongestCommonPrefix longestCommonPrefix = new LongestCommonPrefix();
-        System.out.println(longestCommonPrefix.findLongestCommonPrefix(strs));
+        System.out.println(longestCommonPrefix.findLongestCommonPrefixHorizontalScanning(strs));
     }
 
 }
