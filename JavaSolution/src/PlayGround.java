@@ -3,34 +3,70 @@ import java.util.*;
 
 public class PlayGround {
 
-    public String reverseWords(String s) {
-        List<String> words = new ArrayList<>();
-        // lastIndex
-        int lastIndexOfWord = -1;
-        // go through string from the back
-        for (int i = s.length() - 1; i >= -1; i--) {
-            char curr = i == -1 ? ' ' : s.charAt(i);
-            if (curr == ' ') {
-                // when it is a space - check lastIndex is valid, add string from i + 1, lastIndex
-                if (lastIndexOfWord != -1) {
-                    words.add(s.substring(i + 1, lastIndexOfWord + 1));
-                    lastIndexOfWord = -1;
-                }
-            } else {
-                // when it is not a space - update lastIndex if lastIndex is not valid
-                if (lastIndexOfWord == -1) {
-                    lastIndexOfWord = i;
-                }
+    public String convert(String s, int numRows) {
+        if (numRows == 1) {
+            return s;
+        }
+        List<List<Character>> rows = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            rows.add(new ArrayList<>());
+        }
+
+        int range = numRows * 2 - 2;
+        int currIndex = 0;
+
+        while (currIndex < s.length()) {
+            int step = 0;
+            while (step < range && currIndex + step < s.length()) {
+                char curr = s.charAt(currIndex + step);
+                int currRow = step < numRows ? step : (range - step);
+                List<Character> row = rows.get(currRow);
+                row.add(curr);
+                step++;
+            }
+            currIndex += range;
+        }
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < rows.size(); i++) {
+            List<Character> row = rows.get(i);
+            for (int j = 0; j < row.size(); j++) {
+                builder.append(row.get(j));
             }
         }
 
-        return String.join(" ", words);
+        return builder.toString();
+    }
+    public String convertConstantMemory(String s, int numRows) {
+        if (numRows == 1) {
+            return s;
+        }
+        int sessionLength = 2 * numRows - 2;
+
+        StringBuilder builder = new StringBuilder();
+
+        for (int row = 0; row < numRows; row++) {
+            int firstIndex = row;
+            while (firstIndex < s.length()) {
+//                System.out.println("row: " + row);
+//                System.out.println("char: " + s.charAt(firstIndex));
+                builder.append(s.charAt(firstIndex));
+                int secondIndex = firstIndex + (sessionLength - 2 * row);
+                if (row != 0 && row != numRows - 1 && secondIndex < s.length()) {
+                    builder.append(s.charAt(secondIndex));
+                }
+
+                firstIndex += sessionLength;
+            }
+        }
+
+        return builder.toString();
     }
 
 
 
     public static void main(String[] args) {
         PlayGround playground = new PlayGround();
-        System.out.println(playground.reverseWords("the sky is blue"));
+        System.out.println(playground.convertConstantMemory("PAYPALISHIRING",3));
     }
 }
