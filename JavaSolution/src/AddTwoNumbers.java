@@ -60,6 +60,41 @@ public class AddTwoNumbers {
         // return dummyNode.next
         return dummyNode.next;
     }
+    public ListNode addTwoNumbersConcise(ListNode l1, ListNode l2) {
+        // create a number (result)
+        ListNode dummy = new ListNode(-1);
+        ListNode curr = dummy;
+
+        int carry = 0;
+        // go through l1 and l2 at the same time
+        while (l1 != null || l2 != null) {
+            int l1Num = 0;
+            if (l1 != null) {
+                l1Num = l1.val;
+                l1 = l1.next;
+            }
+            int l2Num = 0;
+            if (l2 != null) {
+                l2Num = l2.val;
+                l2 = l2.next;
+            }
+            // add curr num
+            int currNum = (l1Num + l2Num + carry) % 10;
+            carry = (l1Num + l2Num + carry) / 10;
+            // add curr num into result
+            ListNode newNode = new ListNode(currNum);
+            curr.next = newNode;
+            curr = newNode;
+
+        }
+        if (carry == 1) {
+            ListNode newNode = new ListNode(carry);
+            curr.next = newNode;
+        }
+
+        // return result
+        return dummy.next;
+    }
     public static void main(String[] args) {
         ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
         ListNode l2 = new ListNode(5, new ListNode(6, new ListNode(4)));
